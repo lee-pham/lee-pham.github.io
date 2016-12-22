@@ -1,0 +1,89 @@
+<script type="text/javascript" src="proj4-src.js"></script>
+<script type="text/javascript" src="proj4.js"></script>
+<script type="text/javascript" src="coordinates.js"></script>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>StATX</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        #map {
+            height: 100%;
+        }
+        #floating-panel {
+            position: absolute;
+            top: 10px;
+            left: 25%;
+            z-index: 5;
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #999;
+            text-align: center;
+            font-family: 'Roboto','sans-serif';
+            line-height: 30px;
+            padding-left: 10px;
+        }
+    </style>
+</head>
+<body>
+<div id="floating-panel">
+    <input onclick="loadMarkers();" type=button value="Load All Markers">
+    <input onclick="deleteMarkers();" type=button value="Delete Markers">
+</div>
+<div id="map"></div>
+<script>
+    var map;
+    var markers = [];
+
+    function initMap() {
+        map = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: 30.286, lng: -97.740},
+            zoom: 15
+        });
+
+    }
+
+    function loadMarkers() {
+        var i;
+        var coordArray;
+        var marker;
+        var firstProjection = 'PROJCS["NAD_1983_StatePlane_Texas_Central_FIPS_4203_Feet",GEOGCS["GCS_North_American_1983",DATUM["North_American_Datum_1983",SPHEROID["GRS_1980",6378137,298.257222101]],PRIMEM["Greenwich",0],UNIT["Degree",0.017453292519943295]],PROJECTION["Lambert_Conformal_Conic_2SP"],PARAMETER["False_Easting",2296583.333333333],PARAMETER["False_Northing",9842499.999999998],PARAMETER["Central_Meridian",-100.3333333333333],PARAMETER["Standard_Parallel_1",30.11666666666667],PARAMETER["Standard_Parallel_2",31.88333333333333],PARAMETER["Latitude_Of_Origin",29.66666666666667],UNIT["Foot_US",0.30480060960121924],AUTHORITY["EPSG","102739"]]';
+        var secondProjection = 'GEOGCS["WGS 84",DATUM["WGS_1984",SPHEROID["WGS 84",6378137,298.257223563,AUTHORITY["EPSG","7030"]],AUTHORITY["EPSG","6326"]],PRIMEM["Greenwich",0,AUTHORITY["EPSG","8901"]],UNIT["degree",0.01745329251994328,AUTHORITY["EPSG","9122"]],AUTHORITY["EPSG","4326"]]';
+        console.log(proj4(firstProjection, secondProjection, [xCoord[0], yCoord[0]]).reverse());
+        for (i = 0; i < xCoord.length; i++) {
+            coordArray = proj4(firstProjection, secondProjection, [xCoord[i], yCoord[i]]).reverse();
+            marker = new google.maps.Marker({
+                position: new google.maps.LatLng(coordArray[0], coordArray[1]),
+                map: map
+            });
+            markers.push(marker);
+        }
+    }
+
+    function setMapOnAll(map) {
+        for (var i = 0; i < markers.length; i++) {
+            markers[i].setMap(map);
+        }
+    }
+
+    function clearMarkers() {
+        setMapOnAll(null);
+    }
+
+    function deleteMarkers() {
+        clearMarkers();
+        markers = [];
+    }
+
+    </script>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCq_qkHkCpr9YEU2n-Coecnzv4tYNwrlyg&callback=initMap" async defer></script>
+
+</body>
+</html>
