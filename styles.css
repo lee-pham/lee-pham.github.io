@@ -1,0 +1,12 @@
+body {
+    background-color: #fdf6e3;
+    color: #839496;
+    font-family: 'Fira Sans', sans-serif;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "kern";
+    text-align: left;
+    hyphens: auto;
+    max-width: 500px;
+    font-size: larger;
+    margin: auto
+}
