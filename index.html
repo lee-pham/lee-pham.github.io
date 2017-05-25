@@ -1,14 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
 <head>
-    <link rel="stylesheet" href="styles.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Lee Pham</title>
+    <script src="http://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="http://code.highcharts.com/stock/highstock.js"></script>
 </head>
-<body>
-    <p>
-    The quick brown fox jumps over the lazy dog. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-    </p>
-</body>
-</html>
+<div id="container" style="max-width: 800px; height:400px; margin: 1em auto;"></div>
+<script>
+    var chart = Highcharts.chart('container', {
+        chart: {
+            type: 'column',
+            events: {
+            load: function() {
+
+                // set up the updating of the chart each second
+                var series = this.series[0];
+                setInterval(function() {
+                    c = Math.floor(Math.random()*6) + Math.floor(Math.random()*6);
+                    update = chart.series[0].data[c].y;
+                    update += 1;
+                    chart.series[0].data[c].update(update);
+                }, 1000);
+            }
+        }
+        },
+        title: {
+            text: 'Sum of Two 6-Sided Die'
+        },
+        xAxis: [{
+            type: 'category',
+            title: {
+                text: 'Sum'
+            },
+            gridLineWidth: 1,
+        }],
+        yAxis: [{
+            title: {
+                text: 'Frequency'
+            }
+        }],
+        series: [{
+            showInLegend: false,
+            name: 'Histogram',
+            type: 'column',
+            data: [[2, 1], [3, 2], [4, 3], [5, 4], [6, 5], [7, 6], [8, 5], [9, 4], [10, 3], [11, 2], [12, 1]],
+            pointPadding: 0,
+            groupPadding: 0,
+            firstRowAsNames: true
+        }]
+    });
+</script>
