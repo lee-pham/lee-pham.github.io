@@ -18,7 +18,7 @@
                     update = chart.series[0].data[c].y;
                     update += 1;
                     chart.series[0].data[c].update(update);
-                }, 500);
+                }, 100);
             }
         }
         },
@@ -35,7 +35,8 @@
         yAxis: [{
             title: {
                 text: 'Frequency'
-            }
+            },
+            softMax: 10,
         }],
         series: [{
             showInLegend: false,
