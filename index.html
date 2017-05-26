@@ -15,9 +15,9 @@
                 var series = this.series[0];
                 setInterval(function() {
                     c = Math.floor(Math.random()*6) + Math.floor(Math.random()*6);
-                    update = chart.series[0].data[c].y;
-                    update += 1;
-                    chart.series[0].data[c].update(update);
+                    sum = chart.series[0].data[c].y;
+                    sum += 1;
+                    chart.series[0].data[c].update(sum);
                 }, 100);
             }
         }
