@@ -1,0 +1,52 @@
+<head>
+    <script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+    <script src="https://code.highcharts.com/stock/highstock.js"></script>
+    <title>Two Dice</title>
+</head>
+<div id="container" style="max-width: device-width; height: 98%; margin: 1em auto;"></div>
+<script>
+    var chart = Highcharts.chart('container', {
+        chart: {
+            type: 'column',
+            events: {
+            load: function() {
+
+                // set up the updating of the chart each second
+                var series = this.series[0];
+                setInterval(function() {
+                    c = Math.floor(Math.random()*6) + Math.floor(Math.random()*6);
+                    sum = chart.series[0].data[c].y;
+                    sum += 1;
+                    chart.series[0].data[c].update(sum);
+                }, 100);
+            }
+        }
+        },
+        title: {
+            text: 'Sum of Two 6-Sided Dice'
+        },
+        xAxis: [{
+            type: 'category',
+            title: {
+                text: 'Sum'
+            },
+            gridLineWidth: 1,
+        }],
+        yAxis: [{
+            title: {
+                text: 'Frequency'
+            },
+            softMax: 10,
+            allowDecimals: false,
+        }],
+        series: [{
+            showInLegend: false,
+            name: 'Histogram',
+            type: 'column',
+            data: [[2, 0], [3, 0], [4, 0], [5, 0], [6, 0], [7, 0], [8, 0], [9, 0], [10, 0], [11, 0], [12, 0]],
+            pointPadding: 0,
+            groupPadding: 0,
+            firstRowAsNames: true
+        }]
+    });
+</script>
